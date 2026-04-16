@@ -1,6 +1,6 @@
-package com.example.shopflow;
+package com.shopflow;
 import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplica;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 /**
  * Point d'entrée de l'application ShopFlow.
@@ -11,10 +11,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplica;
  *   - @ComponentScan        : Spring cherche les @Service, @Repository, @Controller dans ce package
  */
 @SpringBootApplication
-public class ShopFlowApplication {
+public class ShopflowApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(ShopFlowApplication.class, args);
+        SpringApplication.run(ShopflowApplication.class, args);
         System.out.println("===========================================");
         System.out.println("  ShopFlow démarré avec succès !");
         System.out.println("  API      : http://localhost:8080/api");
