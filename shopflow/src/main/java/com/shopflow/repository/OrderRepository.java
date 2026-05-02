@@ -65,4 +65,19 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
         )
         """)
     Double calculateChiffreAffairesBySeller(@Param("sellerId") Long sellerId);
+
+    /**
+     * Trouve les commandes d'un client (sans pagination).
+     */
+    List<Order> findByCustomerId(Long customerId);
+
+    /**
+     * Compte les commandes par statut.
+     */
+    long countByStatut(OrderStatus statut);
+
+    /**
+     * Compte les commandes d'un client.
+     */
+    long countByCustomerId(Long customerId);
 }

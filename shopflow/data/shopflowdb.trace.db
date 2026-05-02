@@ -1,0 +1,12 @@
+2026-05-01 15:17:00.603707+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "NUMERO_COMMANDE CHARACTER VARYING(20)": "'ORD-1777641420598-0B97CCED' (26)"
+Value too long for column "NUMERO_COMMANDE CHARACTER VARYING(20)": "'ORD-1777641420598-0B97CCED' (26)"; SQL statement:
+insert into orders (adresse_livraison,coupon_id,customer_id,date_commande,frais_livraison,numero_commande,sous_total,statut,totalttc,id) values (?,?,?,?,?,?,?,?,?,default) [22001-224]
+2026-05-01 15:17:11.196449+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "NUMERO_COMMANDE CHARACTER VARYING(20)": "'ORD-1777641431194-3EE4FD1F' (26)"
+Value too long for column "NUMERO_COMMANDE CHARACTER VARYING(20)": "'ORD-1777641431194-3EE4FD1F' (26)"; SQL statement:
+insert into orders (adresse_livraison,coupon_id,customer_id,date_commande,frais_livraison,numero_commande,sous_total,statut,totalttc,id) values (?,?,?,?,?,?,?,?,?,default) [22001-224]
+2026-05-01 15:25:02.696526+02:00 jdbc[3]: exception
+org.h2.jdbc.JdbcSQLDataException: Valeur trop longue pour la colonne "NUMERO_COMMANDE CHARACTER VARYING(20)": "'ORD-1777641902689-FD93ED72' (26)"
+Value too long for column "NUMERO_COMMANDE CHARACTER VARYING(20)": "'ORD-1777641902689-FD93ED72' (26)"; SQL statement:
+insert into orders (adresse_livraison,coupon_id,customer_id,date_commande,frais_livraison,numero_commande,sous_total,statut,totalttc,id) values (?,?,?,?,?,?,?,?,?,default) [22001-224]

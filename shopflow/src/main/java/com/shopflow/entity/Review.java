@@ -39,7 +39,7 @@ public class Review {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id", nullable = false)
-    private Product888 product;
+    private Product product;
 
     /**
      * Note de 1 à 5 étoiles.

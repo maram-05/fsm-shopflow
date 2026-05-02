@@ -1,0 +1,520 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>🔍 Debug Token JWT - ShopFlow</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 900px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 16px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            padding: 40px;
+        }
+        
+        h1 {
+            color: #667eea;
+            margin-bottom: 10px;
+            font-size: 2rem;
+        }
+        
+        .subtitle {
+            color: #666;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+        }
+        
+        .section {
+            background: #f8f9fa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .section h2 {
+            color: #333;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+        }
+        
+        .result {
+            background: white;
+            border-radius: 8px;
+            padding: 15px;
+            margin-top: 10px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9rem;
+            word-break: break-all;
+        }
+        
+        .success {
+            border-left: 4px solid #10b981;
+            background: #d1fae5;
+            color: #065f46;
+        }
+        
+        .error {
+            border-left: 4px solid #ef4444;
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        
+        .warning {
+            border-left: 4px solid #f59e0b;
+            background: #fef3c7;
+            color: #92400e;
+        }
+        
+        .info {
+            border-left: 4px solid #3b82f6;
+            background: #dbeafe;
+            color: #1e40af;
+        }
+        
+        button {
+            background: #667eea;
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin-right: 10px;
+            margin-bottom: 10px;
+        }
+        
+        button:hover {
+            background: #5568d3;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        button.danger {
+            background: #ef4444;
+        }
+        
+        button.danger:hover {
+            background: #dc2626;
+        }
+        
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 12px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            margin-left: 10px;
+        }
+        
+        .badge.success {
+            background: #10b981;
+            color: white;
+        }
+        
+        .badge.error {
+            background: #ef4444;
+            color: white;
+        }
+        
+        .badge.warning {
+            background: #f59e0b;
+            color: white;
+        }
+        
+        pre {
+            background: #1e293b;
+            color: #e2e8f0;
+            padding: 15px;
+            border-radius: 8px;
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+        
+        .actions {
+            margin-top: 20px;
+        }
+        
+        input {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e5e7eb;
+            border-radius: 8px;
+            font-size: 1rem;
+            margin-bottom: 10px;
+        }
+        
+        input:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Debug Token JWT</h1>
+        <p class="subtitle">Outil de diagnostic pour vérifier votre token d'authentification</p>
+        
+        <!-- Section 1: Vérification localStorage -->
+        <div class="section">
+            <h2>1️⃣ Token dans localStorage</h2>
+            <div id="tokenCheck"></div>
+            <div class="actions">
+                <button onclick="checkToken()">🔄 Vérifier le Token</button>
+                <button onclick="clearToken()" class="danger">🗑️ Supprimer le Token</button>
+            </div>
+        </div>
+        
+        <!-- Section 2: Format JWT -->
+        <div class="section">
+            <h2>2️⃣ Validation du Format JWT</h2>
+            <div id="formatCheck"></div>
+        </div>
+        
+        <!-- Section 3: Décodage Payload -->
+        <div class="section">
+            <h2>3️⃣ Contenu du Token (Payload)</h2>
+            <div id="payloadCheck"></div>
+        </div>
+        
+        <!-- Section 4: Test Login -->
+        <div class="section">
+            <h2>4️⃣ Test de Connexion</h2>
+            <input type="email" id="email" placeholder="Email" value="client@test.com">
+            <input type="password" id="password" placeholder="Mot de passe" value="password123">
+            <div id="loginResult"></div>
+            <div class="actions">
+                <button onclick="testLogin()">🔐 Se Connecter</button>
+            </div>
+        </div>
+        
+        <!-- Section 5: Test API Cart -->
+        <div class="section">
+            <h2>5️⃣ Test Ajout au Panier</h2>
+            <div id="cartResult"></div>
+            <div class="actions">
+                <button onclick="testAddToCart()">🛒 Tester POST /api/cart/items</button>
+            </div>
+        </div>
+        
+        <!-- Section 6: Recommandations -->
+        <div class="section">
+            <h2>6️⃣ Recommandations</h2>
+            <div id="recommendations"></div>
+        </div>
+    </div>
+
+    <script>
+        const API_URL = 'http://localhost:8080/api';
+        
+        // Vérifier le token
+        function checkToken() {
+            const token = localStorage.getItem('token');
+            const user = localStorage.getItem('user');
+            const output = document.getElementById('tokenCheck');
+            
+            if (!token) {
+                output.innerHTML = `
+                    <div class="result error">
+                        ❌ <strong>Aucun token trouvé</strong><br>
+                        localStorage.getItem('token') retourne null
+                    </div>
+                `;
+                return;
+            }
+            
+            output.innerHTML = `
+                <div class="result success">
+                    ✅ <strong>Token trouvé</strong><br>
+                    Longueur: ${token.length} caractères
+                </div>
+                <div class="result info">
+                    <strong>Token:</strong><br>
+                    ${token.substring(0, 50)}...${token.substring(token.length - 20)}
+                </div>
+            `;
+            
+            if (user) {
+                try {
+                    const userData = JSON.parse(user);
+                    output.innerHTML += `
+                        <div class="result success">
+                            ✅ <strong>Utilisateur:</strong> ${userData.email}<br>
+                            <strong>Rôle:</strong> ${userData.role}
+                        </div>
+                    `;
+                } catch (e) {
+                    output.innerHTML += `
+                        <div class="result error">
+                            ❌ <strong>Erreur parsing user:</strong> ${e.message}
+                        </div>
+                    `;
+                }
+            }
+            
+            validateFormat();
+            decodePayload();
+            generateRecommendations();
+        }
+        
+        // Valider le format JWT
+        function validateFormat() {
+            const token = localStorage.getItem('token');
+            const output = document.getElementById('formatCheck');
+            
+            if (!token) {
+                output.innerHTML = `<div class="result error">❌ Pas de token à valider</div>`;
+                return;
+            }
+            
+            // Nettoyer le token
+            const cleanToken = token.replace('Bearer ', '').trim();
+            const parts = cleanToken.split('.');
+            
+            if (parts.length !== 3) {
+                output.innerHTML = `
+                    <div class="result error">
+                        ❌ <strong>Format JWT INVALIDE</strong><br>
+                        Nombre de parties: ${parts.length} (attendu: 3)<br>
+                        Un JWT valide doit avoir 3 parties séparées par des points (.)<br>
+                        Format: header.payload.signature
+                    </div>
+                `;
+                return;
+            }
+            
+            output.innerHTML = `
+                <div class="result success">
+                    ✅ <strong>Format JWT VALIDE</strong><br>
+                    Nombre de parties: ${parts.length} ✓
+                </div>
+                <div class="result info">
+                    <strong>Header:</strong> ${parts[0].substring(0, 30)}...<br>
+                    <strong>Payload:</strong> ${parts[1].substring(0, 30)}...<br>
+                    <strong>Signature:</strong> ${parts[2].substring(0, 30)}...
+                </div>
+            `;
+        }
+        
+        // Décoder le payload
+        function decodePayload() {
+            const token = localStorage.getItem('token');
+            const output = document.getElementById('payloadCheck');
+            
+            if (!token) {
+                output.innerHTML = `<div class="result error">❌ Pas de token à décoder</div>`;
+                return;
+            }
+            
+            try {
+                const cleanToken = token.replace('Bearer ', '').trim();
+                const parts = cleanToken.split('.');
+                
+                if (parts.length !== 3) {
+                    output.innerHTML = `<div class="result error">❌ Token invalide, impossible de décoder</div>`;
+                    return;
+                }
+                
+                const payload = JSON.parse(atob(parts[1]));
+                const now = Math.floor(Date.now() / 1000);
+                const isExpired = payload.exp && payload.exp < now;
+                
+                output.innerHTML = `
+                    <div class="result ${isExpired ? 'error' : 'success'}">
+                        ${isExpired ? '❌' : '✅'} <strong>Token ${isExpired ? 'EXPIRÉ' : 'VALIDE'}</strong>
+                    </div>
+                    <pre>${JSON.stringify(payload, null, 2)}</pre>
+                    <div class="result info">
+                        <strong>Email (sub):</strong> ${payload.sub || 'N/A'}<br>
+                        <strong>Émis le:</strong> ${payload.iat ? new Date(payload.iat * 1000).toLocaleString() : 'N/A'}<br>
+                        <strong>Expire le:</strong> ${payload.exp ? new Date(payload.exp * 1000).toLocaleString() : 'N/A'}<br>
+                        ${isExpired ? '<strong style="color: red;">⚠️ Token expiré, reconnectez-vous</strong>' : ''}
+                    </div>
+                `;
+            } catch (e) {
+                output.innerHTML = `
+                    <div class="result error">
+                        ❌ <strong>Erreur décodage:</strong> ${e.message}<br>
+                        Le payload n'est pas un JSON valide
+                    </div>
+                `;
+            }
+        }
+        
+        // Supprimer le token
+        function clearToken() {
+            localStorage.removeItem('token');
+            localStorage.removeItem('user');
+            alert('✅ Token supprimé. Reconnectez-vous.');
+            checkToken();
+        }
+        
+        // Test login
+        async function testLogin() {
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const output = document.getElementById('loginResult');
+            
+            output.innerHTML = `<div class="result info">⏳ Connexion en cours...</div>`;
+            
+            try {
+                const response = await fetch(`${API_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({
+                        email: email,
+                        motDePasse: password
+                    })
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const data = await response.json();
+                
+                // Stocker le token (SANS "Bearer ")
+                const token = data.accessToken.replace('Bearer ', '').trim();
+                localStorage.setItem('token', token);
+                localStorage.setItem('user', JSON.stringify(data.user));
+                
+                output.innerHTML = `
+                    <div class="result success">
+                        ✅ <strong>Connexion réussie !</strong><br>
+                        Email: ${data.user.email}<br>
+                        Rôle: ${data.user.role}
+                    </div>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+                
+                checkToken();
+            } catch (error) {
+                output.innerHTML = `
+                    <div class="result error">
+                        ❌ <strong>Erreur connexion:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        // Test ajout au panier
+        async function testAddToCart() {
+            const token = localStorage.getItem('token');
+            const output = document.getElementById('cartResult');
+            
+            if (!token) {
+                output.innerHTML = `
+                    <div class="result error">
+                        ❌ <strong>Pas de token</strong><br>
+                        Connectez-vous d'abord
+                    </div>
+                `;
+                return;
+            }
+            
+            output.innerHTML = `<div class="result info">⏳ Test en cours...</div>`;
+            
+            try {
+                const cleanToken = token.replace('Bearer ', '').trim();
+                
+                const response = await fetch(`${API_URL}/cart/items`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${cleanToken}`
+                    },
+                    body: JSON.stringify({
+                        productId: 1,
+                        quantite: 1
+                    })
+                });
+                
+                const data = await response.json();
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${JSON.stringify(data)}`);
+                }
+                
+                output.innerHTML = `
+                    <div class="result success">
+                        ✅ <strong>Ajout au panier réussi !</strong><br>
+                        Status: ${response.status} ${response.statusText}
+                    </div>
+                    <pre>${JSON.stringify(data, null, 2)}</pre>
+                `;
+            } catch (error) {
+                output.innerHTML = `
+                    <div class="result error">
+                        ❌ <strong>Erreur:</strong> ${error.message}
+                    </div>
+                `;
+            }
+        }
+        
+        // Générer des recommandations
+        function generateRecommendations() {
+            const token = localStorage.getItem('token');
+            const output = document.getElementById('recommendations');
+            const recommendations = [];
+            
+            if (!token) {
+                recommendations.push('🔴 <strong>Connectez-vous</strong> avec client@test.com / password123');
+            } else {
+                const cleanToken = token.replace('Bearer ', '').trim();
+                const parts = cleanToken.split('.');
+                
+                if (parts.length !== 3) {
+                    recommendations.push('🔴 <strong>Token invalide</strong> - Reconnectez-vous');
+                } else {
+                    try {
+                        const payload = JSON.parse(atob(parts[1]));
+                        const now = Math.floor(Date.now() / 1000);
+                        
+                        if (payload.exp && payload.exp < now) {
+                            recommendations.push('🔴 <strong>Token expiré</strong> - Reconnectez-vous');
+                        } else {
+                            recommendations.push('✅ Token valide et non expiré');
+                        }
+                    } catch (e) {
+                        recommendations.push('🔴 <strong>Payload invalide</strong> - Reconnectez-vous');
+                    }
+                }
+            }
+            
+            if (recommendations.length === 0) {
+                recommendations.push('✅ Tout semble correct !');
+            }
+            
+            output.innerHTML = recommendations.map(r => `
+                <div class="result ${r.includes('✅') ? 'success' : 'warning'}">
+                    ${r}
+                </div>
+            `).join('');
+        }
+        
+        // Auto-check au chargement
+        window.onload = () => {
+            checkToken();
+        };
+    </script>
+</body>
+</html>

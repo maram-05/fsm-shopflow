@@ -128,7 +128,7 @@ public class Product {
     /** Calcule le pourcentage de remise */
     public Double getPourcentageRemise() {
         if (!isEnPromotion()) return 0.0;
-        return Math.round(((prix - prixPromo) / prix) * 100.0);
+        return Math.round(((prix - prixPromo) / prix) * 100.0 * 100.0) / 100.0;
     }
 
     /** Prix effectif (promo si disponible, sinon prix normal) */

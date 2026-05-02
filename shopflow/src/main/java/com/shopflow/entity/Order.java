@@ -44,8 +44,8 @@ public class Order {
     @Builder.Default
     private OrderStatus statut = OrderStatus.PENDING;
 
-    @Column(name = "numero_commande", nullable = false, unique = true, length = 20)
-    private String numeroCommande;  // Ex: ORD-2025-00001
+    @Column(name = "numero_commande", nullable = false, unique = true, length = 50)
+    private String numeroCommande;  // Ex: ORD-1777641431194-3EE4FD1F
 
     /**
      * Adresse de livraison (copiée au moment de la commande pour garder l'historique)

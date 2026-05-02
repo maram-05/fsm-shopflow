@@ -104,4 +104,45 @@ public interface ProductRepository extends JpaRepository<Product, Long>,
      */
     @Query("SELECT p FROM Product p LEFT JOIN FETCH p.variants WHERE p.id = :id AND p.actif = true")
     Optional<Product> findByIdWithVariants(@Param("id") Long id);
+
+    /**
+     * Trouve tous les produits actifs (sans pagination).
+     */
+    List<Product> findByActifTrue();
+
+    /**
+     * Trouve les produits d'un vendeur (actifs uniquement).
+     */
+    List<Product> findBySellerIdAndActifTrue(Long sellerId);
+
+    /**
+     * Trouve les produits d'une catégorie (actifs uniquement).
+     */
+    @Query("SELECT p FROM Product p JOIN p.categories c WHERE c.id = :categoryId AND p.actif = true")
+    List<Product> findByCategoriesIdAndActifTrue(@Param("categoryId") Long categoryId);
+
+    /**
+     * Recherche par nom (contient, insensible à la casse).
+     */
+    List<Product> findByNomContainingIgnoreCaseAndActifTrue(String nom);
+
+    /**
+     * Trouve les produits en promotion.
+     */
+    List<Product> findByPrixPromoIsNotNullAndActifTrue();
+
+    /**
+     * Compte les produits actifs.
+     */
+    long countByActifTrue();
+
+    /**
+     * Compte les produits d'un vendeur.
+     */
+    long countBySellerId(Long sellerId);
+
+    /**
+     * Compte les produits actifs d'un vendeur.
+     */
+    long countBySellerIdAndActifTrue(Long sellerId);
 }

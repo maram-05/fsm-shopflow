@@ -12,5 +12,7 @@ public class CategoryResponse {
     private String nom;
     private String description;
     private Long parentId;
+    private String parentNom;
+    private Integer nombreSousCategories;
     private List<CategoryResponse> sousCategories;
 }

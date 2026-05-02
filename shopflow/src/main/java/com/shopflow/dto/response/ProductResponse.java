@@ -16,6 +16,7 @@ public class ProductResponse {
     private String description;
     private Double prix;
     private Double prixPromo;
+    private Double prixEffectif;
     private Boolean enPromotion;
     private Double pourcentageRemise;
     private Integer stock;
@@ -25,6 +26,8 @@ public class ProductResponse {
     private Set<CategoryResponse> categories;
     private List<ProductVariantResponse> variants;
     private Double noteMoyenne;
+    private Long sellerId;
+    private String sellerNom;
     private Long sellerProfileId;
     private String nomBoutique;
 
